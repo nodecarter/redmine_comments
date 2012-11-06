@@ -1,6 +1,8 @@
-class CommentsMailerPatchTest < ActionMailer::TestCase
+require File.expand_path('../../test_helper', __FILE__)
+
+class CommentsMailerPatchTest < ActiveSupport::TestCase
   include Redmine::I18n
-  include ActionDispatch::Assertions::SelectorAssertions
+  include ActionController::Assertions::SelectorAssertions
   fixtures :projects, :enabled_modules, :issues, :users, :members,
            :member_roles, :roles, :documents, :attachments, :news,
            :tokens, :journals, :journal_details, :changesets,
@@ -23,9 +25,9 @@ class CommentsMailerPatchTest < ActionMailer::TestCase
     comment = Comment.create!(:commented => issue, :comments => "Blah", :author => User.find(1))
 
     # Send the email, then test that it got queued
-    email = Mailer.issue_comment_added(comment).deliver
+    email = Mailer.deliver_issue_comment_added(comment)
     assert !ActionMailer::Base.deliveries.empty?
- 
+
     # Test the body of the sent email contains what we expect it to
     user = User.find(3)
     assert_equal [user.mail], email.bcc

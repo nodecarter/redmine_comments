@@ -1,0 +1,48 @@
+<%= stylesheet_link_tag("redmine_comments", :plugin => "redmine_comments") %>
+<%= javascript_include_tag 'jquery-1.8.2.min.js', :plugin => 'redmine_comments' %>
+<%= javascript_include_tag 'jquery-sort-elements.js', :plugin => 'redmine_comments' %>
+<%= javascript_include_tag 'jquery-noconflict.js', :plugin => 'redmine_comments' %>
+
+<%
+  @comments = User.current.allowed_to?(:view_private_comments, @project) ?
+      @issue.comments : []
+
+  # build sort index
+  journals_idx = (@journals + @comments).sort_by(&:created_on)
+  journals_idx.reverse! if User.current.wants_comments_in_reverse_order?
+  journals_idx = journals_idx.map do |j|
+    j.is_a?(Comment) ? "comment-#{j.id}" : "change-#{j.id}"
+  end
+%>
+
+<% content_tag :div, :class => "custom-report", :id => "redmine-comments",
+               :style => "display:none;", "data-idx" => journals_idx do %>
+
+  <% if User.current.allowed_to?(:manage_private_comments, @project) %>
+    <%= link_to_remote "Commenter", :url => new_issue_comment_path(:issue_id => @issue),
+       :method => :get, :html => { :class => "icon icon-private-comment" } %>
+  <% end %>
+
+  <% @comments.each do |comment| %>
+    <%= render :partial => "issue_comments/comment", :locals => { :comment => comment } %>
+  <% end %>
+
+<% end %>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    // move button
+    var button = $('#redmine-comments .icon.icon-private-comment').detach();
+    $('.contextual .icon.icon-edit').after(button);
+
+    $('#redmine-comments .issue-comment-container').detach().appendTo('#history')
+
+    // sort comments with prepared sort index
+    var journals_idx = $('#redmine-comments').data().idx;
+    $('.journal, .issue-comment-container').sortElements(function(a, b) {
+      a_idx = journals_idx.indexOf(a.id);
+      b_idx = journals_idx.indexOf(b.id);
+      return a_idx > b_idx ? 1 : -1;
+    });
+  });
+</script>

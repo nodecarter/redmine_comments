@@ -1,4 +1,6 @@
-if ($("#add_comment_form").length == 0) {
-  $("#update").after("<%= j render "form" %>")
-}
-showAndScrollTo("add_comment_form", "comment_comments")
+jQuery(document).ready(function($) {
+  if (jQuery("#add_comment_form").length == 0) {
+    jQuery("#update").after(<%= render('form').to_json %>)
+  }
+  showAndScrollTo("add_comment_form", "comment_comments")
+});

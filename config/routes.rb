@@ -1,3 +1,3 @@
-RedmineApp::Application.routes.draw do
-  resources :issue_comments, :only => [:new, :create]
+ActionController::Routing::Routes.draw do |map|
+  map.resources :issue_comments, :only => [:new, :create]
 end
