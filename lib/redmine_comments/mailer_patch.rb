@@ -18,6 +18,7 @@ module RedmineComments
         #subject
         s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}][#{l(:label_comment).upcase}] "
         s << issue.subject
+        subject s
         @issue = issue
         @comment = comment
         @issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue, :anchor => "comment-#{comment.id}")

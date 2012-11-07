@@ -4,11 +4,12 @@
 <%= javascript_include_tag 'jquery-noconflict.js', :plugin => 'redmine_comments' %>
 
 <%
-  @comments = User.current.allowed_to?(:view_private_comments, @project) ?
+  comments = User.current.allowed_to?(:view_private_comments, @project) ?
       @issue.comments : []
+  journals = @journals || []
 
   # build sort index
-  journals_idx = (@journals + @comments).sort_by(&:created_on)
+  journals_idx = (journals + comments).sort_by(&:created_on)
   journals_idx.reverse! if User.current.wants_comments_in_reverse_order?
   journals_idx = journals_idx.map do |j|
     j.is_a?(Comment) ? "comment-#{j.id}" : "change-#{j.id}"
@@ -23,7 +24,7 @@
        :method => :get, :html => { :class => "icon icon-private-comment" } %>
   <% end %>
 
-  <% @comments.each do |comment| %>
+  <% comments.each do |comment| %>
     <%= render :partial => "issue_comments/comment", :locals => { :comment => comment } %>
   <% end %>
 
