@@ -30,15 +30,23 @@
 
 <% end %>
 
+
 <script type="text/javascript">
   jQuery(document).ready(function($) {
     // move button
     var button = $('#redmine-comments .icon.icon-private-comment').detach();
     $('.contextual .icon.icon-edit').after(button);
 
+    // add history container unless it exists
+    if ($('#history').length == 0) {
+      $('div[style="clear: both;"]+div.contextual')
+        .before('<div id="history"><h3><%=l(:label_history)%></h3></div>');
+    }
+
+    // move comments to history container
     $('#redmine-comments .issue-comment-container').detach().appendTo('#history')
 
-    // sort comments with prepared sort index
+    // sort comments and journals with prepared sort index
     var journals_idx = $('#redmine-comments').data().idx;
     $('.journal, .issue-comment-container').sortElements(function(a, b) {
       a_idx = journals_idx.indexOf(a.id);
