@@ -20,8 +20,9 @@
                :style => "display:none;", "data-idx" => journals_idx do %>
 
   <% if User.current.allowed_to?(:manage_private_comments, @project) %>
-    <%= link_to_remote "Commenter", :url => new_issue_comment_path(:issue_id => @issue),
-       :method => :get, :html => { :class => "icon icon-private-comment" } %>
+    <%= link_to_remote l(:label_private_comment),
+        :url => new_issue_comment_path(:issue_id => @issue),
+        :method => :get, :html => { :class => "icon icon-private-comment" } %>
   <% end %>
 
   <% comments.each do |comment| %>

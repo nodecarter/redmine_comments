@@ -1,0 +1,6 @@
+ru:
+  permission_view_private_comments: "Просмотр приватных коментариев"
+  permission_manage_private_comments: "Управление приватными коментариями"
+  label_commented_time_by: "Приватный коментарий добавил(а) %{author} %{age} назад"
+  label_private_comment: "Приватный коментарий"
+  text_info_comment_visibility: "Приватные коментарии видны только для ролей с соответствующими правами."

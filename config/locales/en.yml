@@ -2,4 +2,5 @@ en:
   permission_view_private_comments: "View private comments"
   permission_manage_private_comments: "Manage private comments"
   label_commented_time_by: "Private comment added by %{author} %{age} ago"
+  label_private_comment: "Private comment"
   text_info_comment_visibility: "Private comments are only visible with specific roles."
