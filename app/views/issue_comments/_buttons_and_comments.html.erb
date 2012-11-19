@@ -1,6 +1,10 @@
 <%= stylesheet_link_tag("redmine_comments", :plugin => "redmine_comments") %>
-<%= javascript_include_tag 'jquery-1.8.2.min.js', :plugin => 'redmine_comments' %>
-<%= javascript_include_tag 'jquery-sort-elements.js', :plugin => 'redmine_comments' %>
+<script type="text/javascript">
+  if(typeof(jQuery) == 'undefined') {
+    document.write("<%= escape_javascript(javascript_include_tag('jquery-1.8.2.min.js', :plugin => 'redmine_comments')) %>");
+    document.write("<%= escape_javascript(javascript_include_tag('jquery-noconflict.js', :plugin => 'redmine_comments')) %>");
+  }
+</script>
 <%= javascript_include_tag 'jquery-noconflict.js', :plugin => 'redmine_comments' %>
 
 <%
