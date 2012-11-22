@@ -5,7 +5,7 @@
     document.write("<%= escape_javascript(javascript_include_tag('jquery-noconflict.js', :plugin => 'redmine_comments')) %>");
   }
 </script>
-<%= javascript_include_tag 'jquery-noconflict.js', :plugin => 'redmine_comments' %>
+<%= javascript_include_tag 'jquery-sort-elements.js', :plugin => 'redmine_comments' %>
 
 <%
   comments = User.current.allowed_to?(:view_private_comments, @project) ?
